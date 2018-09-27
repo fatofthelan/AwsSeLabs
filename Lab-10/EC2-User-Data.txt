@@ -1,0 +1,67 @@
+Automate Host configuration with “User Data”
+--------------------------------------------
+
+You can automatically configure a new EC2 Instance by taking advantage of the "User Data" feature.
+The User Data field allows you to run commands or scripts.
+
+
+Copy Website Template to S3
+---------------------------
+
+From your laptop, use the AWS CLI tools to copy your website's template to S3 where it can be fetched by EC2:
+  - From the Lab-10/ directory, run "aws s3 cp template.html s3://tobias-BUCKETNAME1"
+  - Validate the template.html file was copied successfully with "aws s3 ls s3://tobias-BUCKETNAME1"
+
+
+Edit the user-data-example.txt File
+-----------------------------------
+
+Locate the Lab-10/user-data-example.txt file and edit the bucket name to reflect your actual bucket name.
+
+
+Create EC2 Instance
+-------------------
+
+From the AWS Console, click EC2 and click the "Launch Instance" button and use the following settings:
+  - Select "Amazon Linux 2 AMI (HVM), SSD Volume Type"
+  - Select t2.micro for the Instance Type
+  - For the Instance Details (Default VPC), select "S3S3FullAccess" for the IAM Role
+  - Expand "Advanced Details" and paste the command from the user-data-example.txt into the "User data" field, continue to storage
+  - Accept storage defaults
+  - Add a tag (Name:Lab10)
+  - Select an existing security group (WebDMZ) which already allows SSH, HTTP, HTTPS
+  - Review and launch, using the existing Key Pair, OregonKeyPair.
+
+
+Access Web Server's Web Page
+----------------------------
+
+If all goes well, your EC2 instance should spin up, update it's OS, install the Apache web server, grab the tempate.html and
+copy it over the the web root. To validate it has worked as expected:
+  - From the AWS Console, EC2, click "Instances" to access the instance we just created.
+    (Note the Instance State, Tag, Region, Security Group, etc.)
+  - Click on Instance and copy the IPv4 Public IP.
+  - Open a web browser and enter the Public IP address.
+    (You should see the new web page automatically being served from your new host)
+
+
+Access EC2 Instance
+-------------------
+
+From Terminal, we can SSH to the new instance using our OregonKeyPair and the Public IP address:
+(Note the user for Amazon Linux is "ec2-user")
+ssh -A ec2-user@52.35.108.48
+
+(Alternatively, you can specify your key with "-i")
+ssh -i ~/.aws/keypairs/OregonKeyPair.pem ec2-user@52.35.108.48
+
+
+Validate EC2 Instance
+---------------------
+
+Useful Commands for checking EC2 instance is functioning properly:
+  - ifconfig
+  - route
+  - curl -s https://www.google.com
+  - curl -s http://169.254.169.254/latest/meta-data/ (Note the trailing slash)
+  - curl -s http://169.254.169.254/latest/user-data/ (Shows the commands passed via the User data field)

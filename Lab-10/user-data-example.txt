@@ -1,0 +1,6 @@
+#!/bin/bash
+yum update -y
+yum install -y httpd
+service httpd start
+ckconfig httpd on
+aws s3 cp s3://tobias-BUCKETNAME1/template.html /var/www/html/index.html
