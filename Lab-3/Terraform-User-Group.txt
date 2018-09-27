@@ -1,0 +1,15 @@
+Create IAM User and Group for API access
+----------------------------------------
+
+From IAM, create a new user, "terraform".
+Allow only programatic (API) access.
+Download and save API keys.
+Create "terraform-api-users" group.
+Add the following permissions:
+  - AmazonEC2FullAccess
+  - AmazonS3FullAccess
+  - IAMFullAccess
+  - AmazonRDSFullAccess
+  - AmazonDynamoDBFullAccess
+
+Add "terraform" user to "terraform-api-users" group.

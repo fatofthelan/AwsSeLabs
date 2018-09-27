@@ -1,0 +1,23 @@
+Install and Configure Web Server
+--------------------------------
+
+From the CLI, update the OS, install the Web Server:
+(Note: sudo elevates privileges of the ec2-user)
+  - sudo yum -y update (Updates the OS)
+  - sudo yum -y install httpd (Installs the web server)
+  - sudo service httpd start (Starts the web server)
+  - sudo chkconfig httpd on (Sets the web server to start automatically)
+
+Validate the Web Server is running by visiting the Public IP with your web browser.
+(You should see the Apache Test Page since no other pages exist)
+
+
+Configure Example Web Page
+--------------------------
+
+From the Lab-6 directory, edit the example web page (index.html) and add your name.
+Copy the page contents and create a new page on your EC2 instance in the /var/www/html/ directory.
+For example:
+  - sudo vi /var/www/html/index.html (Paste your edited index.html page, save and exit)
+
+Revisit your EC2 Instance's Public IP to see the new page.

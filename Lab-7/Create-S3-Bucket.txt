@@ -1,0 +1,49 @@
+Create S3 Bucket From AWS Console
+---------------------------------
+
+From the AWS Console, S3, click Create Bucket:
+  - Enter DNS compliant name, for example, tobias-BUCKETNAME1 (Note S3 bucket names are Globally Unique)
+  - Enter your Region (US West Oregon)
+  - Next
+  - Enable Versioning
+  - Enter a tag (Name:Lab7)
+  - Next, Next, Create bucket
+
+
+Create S3 Bucket Via AWS CLI From EC2 Instance
+----------------------------------------------
+
+From your EC2 Instance, you can access S3 via the AWS CLI:
+  - Enter "aws s3 ls" (CLI command to view all S3 buckets)
+  - Note: Best practices, user Role not Credentials
+  - Configure Instance to use "S3ReadOnlyAccess" Role (Select Instance, Actions, Instance Settings, Attach/Replace IAM Role)
+  - Attempt "aws s3 ls" command
+  - Enter "aws s3 mb s3://tobias-BUCKETNAME2 --region us-west-2" (CLI command to create a new S3 bucket)
+  - Configure Instance to use "S3FullAccess" Role
+  - Attempt "aws s3 mb s3://tobias-BUCKETNAME2 --region us-west-2"
+  - Enter "aws s3 ls" to validate
+
+
+PUT Files, Copy, and Delete S3 Bucket
+-------------------------------------
+
+Create and add a file to the first S3 bucket you created. For example, this file to S3:
+   - From EC2, click bucket name, and Upload
+   - Select this file, Next
+   - Add a tag (Name:Lab7), Save, Next, Upload
+   - After upload, click on file, notice "Link", click on Link (Note file permission do not allow file to be viewed)
+   - Go back, click "Make Public", and click on Link again.
+
+PUT File via AWS CLI:
+  - From your EC2 Instance, copy your index.html file to the second S3 bucket using the AWS CLI
+  - aws s3 cp /var/www/html/index.html s3://tobias-BUCKETNAME2
+  - Validate upload with "aws s3 ls s3://tobias-BUCKETNAME2"
+
+Copy Files From Bucket to Bucket:
+  - aws s3 cp s3://tobias-BUCKETNAME2/index.html s3://tobias-BUCKETNAME1
+  - Validate copy with "aws s3 ls s3://tobias-BUCKETNAME1" (you should have two files, Create-S3-Bucket.txt and index.html)
+
+Delete Second S3 Bucket:
+  - From AWS Console, S3, highlight tobias-BUCKETNAME2 and click the Delete button
+  or
+  - From AWS CLI, enter "aws s3 rb s3://trice-BUCKETNAME2 --force"

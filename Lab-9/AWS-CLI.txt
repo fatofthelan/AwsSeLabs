@@ -1,0 +1,11 @@
+Using the AWS CLI Tools Locally
+-------------------------------
+
+To use the AWS CLI tools on your local system, you'll need to install the aws-cli, if not already installed, and configure it for API access:
+  - brew install awscli
+  - List your S3 buckets with "aws s3 ls" (You should receive a message that it is unable to locate credentials)
+  - Enter "aws configure"
+  - Enter your terraform user's AWS Access Key ID and AWS Secret Key (from the csv you created earlier)
+  - Enter us-west-2 for the region
+  - Accept the default for the output format
+  - Attempt "aws s3 ls" again (It should succeed now that you have configured it with valid credentials)

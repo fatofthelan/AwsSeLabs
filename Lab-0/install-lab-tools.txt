@@ -1,0 +1,54 @@
+AWS Console
+https://console.aws.amazon.com
+
+
+AWS CLI
+https://aws.amazon.com/cli/
+aws configure
+
+
+GIT
+https://github.com
+https://github.com/PaloAltoNetworks
+https://github.com/fatofthelan/
+
+
+Terraform
+https://www.terraform.io/
+
+
+SSH and Terminal
+https://lzone.de/cheat-sheet/SSH
+
+
+Atom
+https://atom.io/
+https://flight-manual.atom.io/getting-started/sections/installing-atom/
+https://gist.github.com/chrissimpkins/5bf5686bae86b8129bee
+
+
+Homebrew
+https://brew.sh/
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+
+
+MacOS Install
+-------------
+
+Install GIT
+From Terminal, enter git and install xcode
+
+Install Homebrew
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)”
+
+Install AWS CLI
+brew install awscli
+
+(Optional Tools - Recommended)
+brew install python@2 azure-cli
+export PYTHONPATH=$PYTHONPATH:/usr/local/lib/python2.7/site-packages
+sudo -H pip install ansible pandevice xmltodict packaging
+ansible-galaxy install PaloAltoNetworks.paloaltonetworks
+ansible --version (this is a test to see if it installed correctly)
+sudo -H pip install ansible[azure]
+az login

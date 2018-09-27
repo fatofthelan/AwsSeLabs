@@ -1,0 +1,6 @@
+#!/bin/bash
+yum update -y
+yum install -y amazon-efs-utils httpd
+service httpd start
+mount -t efs -o tls YOUREFSID:/ /var/www/html
+ckconfig httpd on

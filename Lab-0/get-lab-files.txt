@@ -1,0 +1,8 @@
+Download Lab Materials
+----------------------
+
+From the Terminal, enter this to get the Lab files:
+git clone https://github.com/fatofthelan.com/AwsSeLabs
+
+Verify a new AwsSeLabs directory exists
+A subdirectory for each lab exists with any materials needed for the labs

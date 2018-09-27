@@ -1,0 +1,11 @@
+Create IAM Roles for S3
+-----------------------
+
+From IAM, create a new Role "S3ReadOnlyAccess".
+Add the following permissions (attach Policies) to the Role:
+  - AmazonS3ReadOnlyAccess
+
+
+Create a new Role "S3FullAccess".
+Add the following permissions (attach Policies) to the Role:
+  - AmazonS3FullAccess

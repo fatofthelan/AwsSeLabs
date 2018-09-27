@@ -1,0 +1,31 @@
+Using S3 to Host a Static Website
+---------------------------------
+
+You can configure an S3 bucket to serve a static website:
+  - Note: Upload only the error.html to your S3 bucket
+  - From your S3 bucket, click Upload, Add files, select error.html, click Next
+  - Under "Manage public permissions", select "Grant public read access to this object(s)", Next
+  - Add a Tag (Name:Lab8), Save, Next, Upload
+  - From the Properties tab, click "Static web hosting", click "Use this bucket to host a website"
+  - Enter "index.html" for Index document and "error.html" for error document, Save (Note bucket URL)
+  - Visit the URL, http://tobias-BUCKET1.s3-website-us-west-2.amazonaws.com (You should see the error message)
+  - Fix permissions of the index.html file (Click on index.html and make public)
+  - Refresh the URL, http://tobias-BUCKET1.s3-website-us-west-2.amazonaws.com (You should see the index.html page)
+
+
+S3 Versioning - Upload New index.html
+-------------------------------------
+
+To see how S3 keeps track of file versions, edit the Lab-8/index.html and upload it to your S3 bucket:
+  - Edit the local index.html file from the Lab-8 directory, adding your name
+  - Upload index.html to your S3 bucket, S3, tobias-BUCKETNAME1, Upload, Next
+  - Under "Manage public permissions" select "Grant public read access to this object(s)"
+  - Add a Tag (Name:Lab8), Save, Next, Upload
+  - Visit the URL, http://tobias-BUCKET1.s3-website-us-west-2.amazonaws.com (The new version should be displayed)
+
+Now that you have uploaded multiple versions of the index.html file, you can see the different versions:
+  - From the Overview tab of your S3 bucket, click the Show button next to Versions
+  - Note all the versions of the index.html file
+  - The last version of the index.html file shows "(Latest version)" next to it
+
+  

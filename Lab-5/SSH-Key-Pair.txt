@@ -1,0 +1,21 @@
+Create a SSH Key Pair
+---------------------
+
+From AWS Console, select EC2, and click on Key Pairs.
+Click "Create Key Pair" and give a meaningful name.
+(OregonKeyPair)
+
+It will create and automatically download the OregonKeyPair.pem file, your private key. Save this key!
+Suggestion: Create Key-Pairs directory and move key there.
+
+Change the permissions to protect your key:
+mv ~/Downloads/OregonKeyPair.pem ~/.aws/keypairs/ && chmod 400 ~/.aws/keypairs/OregonKeyPair.pem
+
+SSH Pro Tip
+-----------
+
+Import pem file (private key) with ssh-add:
+ssh-add -K myprivitekey.pem
+ssh-add -L
+ssh -A user@host
+Allows passthrough for bastion host without copying private key!

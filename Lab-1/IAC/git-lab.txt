@@ -1,0 +1,55 @@
+Configure GIT
+-------------
+
+Set the name you want attached to your commit transactions:
+git config --global user.name "[name]"
+
+Set the email address you want attached to your commit transactions:
+git config --global user.email "[email address]"
+
+Enable colorization of command line output:
+git config --global color.ui auto
+
+
+Create and Manage GIT Repository
+--------------------------------
+
+From the IAC directory, create your first git repository:
+git init iac
+
+Check status:
+git status
+
+Add a file for notes:
+touch my-notes.txt
+
+Check status:
+git status
+
+Add my-notes.txt to repository:
+git add .
+
+Check status:
+git status
+
+Modify my-notes.txt and check status:
+git status
+
+Commit staged files to your repository:
+git commit -m "Initial commit"
+
+Check status:
+git status
+
+Create new notes as needed, for example, lab-1.txt, lab-2.txt, etc.
+Check status:
+git status
+
+Add new and updated notes to repository:
+git add .
+
+Check status:
+git status
+
+Commit new and updated files to the repository:
+git commit -m "Added lab-1.txt and lab-2.txt"
