@@ -1,0 +1,19 @@
+IAC - Using Terraform to Automate EC2 Deployment
+------------------------------------------------
+
+
+Using Terraform to automatically deploy and configure a website in EC2:
+  - If not already, install Terraform with "brew install terraform"
+  - In the vars.tf file, edit the "existing_ssh_keypair" variable to reflect your EC2 key pair name
+  - Enter "terraform init"
+  - Enter "terraform plan"
+  - If no errors, enter "yes" to proceed
+
+When Terraform is finished it will output the URL to visit of your new website.
+(Note: It may take a few minutes to become active after Terraform finishes.)
+
+After you have finished validating your EC2 instance and website are functioning properly, you should
+delete it as well as all of the other items that were created:
+  - Enter "terraform destroy"
+  - Enter "yes" to proceed
+  
