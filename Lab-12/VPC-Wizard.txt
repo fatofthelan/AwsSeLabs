@@ -1,0 +1,75 @@
+Create a Custom VPC with Public and Private Subnets
+---------------------------------------------------
+
+If you want to create a new VPC that hosts public resources in one subnet, and private resources
+in another subnet, you can quickly create using the VPC Wizard:
+(Note: Having access to the Internet Gateway (IGW) is what defines a "Public" subnet.)
+  - From the AWS Console, VPC, Elastic IPs, click "Allocate new address" and "Allocate"
+  - From the AWS Console, VPC, VPC Dashboard, click "Launch VPC Wizard"
+  - Select "VPC with Public and Private Subnets"
+  - Most fields can be left at the defaults
+  - Enter "Pub-Priv-VPC" for the VPC name
+  - Click in the "Elastic IP Allocation ID:" field and select the Elastic IP you created, click Create
+
+The VPC Wizard will begin and run for a few minutes. It will create a new VPC with all the elements needed
+for the EC2 instances to function. Internet access to the Public subnet is provided by the IGW. Internet
+access to the Private interface is provided by a NAT Gateway in the PUBLIC subnet. There is a route in the
+new route table the provides access to the NAT Gateway. Take a look at the new elements created by the
+VPC Wizard:
+   - VPC called "Pub-Priv-VPC"
+   - Public and Private subnets
+   - Public and Private Route tables (Main yes/no)
+   - Internet Gateway
+   - NAT Gateway (Associated with our Elastic IP Address)
+
+
+
+Validate Public and Private Subnets with EC2 Instances
+------------------------------------------------------
+
+You can create an EC2 instance in both new subnets to validate internet connectivity. The EC2 instance we
+will create in the Public subnet will be available publicly, assuming there is access via a Security Group.
+The EC2 instance we will create in the Private subnet will only be accessible via a "Bastion Host", in
+this case, the Public EC2 instance:
+  - From the AWS Console, EC2, click "Launch Instance"
+  - Select "Amazon Linux 2 AMI (HVM), SSD Volume Type"
+  - Select t2.micro for the Instance Type
+  - For Instance Details, select the "Pub-Priv-VPC"
+  - Select the Public subnet
+  - Move on to Storage and accept the default
+  - Add a tag (Name:Lab12-Public)
+  - Create a new Security Group (Allow-SSH) and allow SSH
+  - Review and launch, using the existing Key Pair, OregonKeyPair.
+
+Validate Public EC2 instance access via SSH.
+(ssh -A ec2-user@54.202.95.184)
+
+Next, create the Private EC2 instance:
+  - From the AWS Console, EC2, click "Launch Instance"
+  - Select "Amazon Linux 2 AMI (HVM), SSD Volume Type"
+  - Select t2.micro for the Instance Type
+  - For Instance Details, select the "Pub-Priv-VPC"
+  - Select the Private subnet
+  - Select Enable for "Auto-assign Public IP"
+  - Move on to Storage and accept the default
+  - Add a tag (Name:Lab12-Private)
+  - Create a new Security Group (Private-SSH) and allow SSH, Allow-SSH Security Group for the Source (for Bastion Host)
+  - Review and launch, using the existing Key Pair, OregonKeyPair.
+
+Validate Private EC2 instance connectivity and access:
+(You cannot SSH directly to the Private EC2 instance. You will need to go through the Bastion Host)
+  - Connect to the PUBLIC EC2 instance/Bastion Host (ssh -A ec2-user@54.202.95.184)
+  - From the AWS Console, EC2, Instances, click on the Lab12-Private instance and find the Private IP address
+  - From the Bastion Host, connect to the Private EC2 instance (ssh -A ec2-user@10.0.1.118)
+  - From the AWS Console, VPC, Route Tables, click on the Public Pub-Priv-VPC subnet (Main:No), notice the IGW
+  - From the AWS Console, VPC, Route Tables, click on the Private Pub-Priv-VPC subnet (Main:Yes), notice the NGW
+
+
+Delete Custom VPC and EC2 instances
+-----------------------------------
+
+You can keep this custom VPC to use as a guide when creating this manually in the next lab. But be sure to delete this custom
+VPC and the EC2 instances when you are finished to avoid excessive AWS fees:
+  - From the AWS Console, EC2, Instances, select both instances and click Actions, Instance State, Terminate
+  - From the AWS Console, VPC, Your VPC's, select the Pub-Priv-VPC and click Actions, Delete VPC, Yes, Delete
+  
