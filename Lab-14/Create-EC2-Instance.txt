@@ -1,0 +1,37 @@
+Create EC2 Instance
+-------------------
+
+From the AWS Console, click EC2 and click the "Launch Instance" button and use the following settings:
+  - Select "Amazon Linux 2 AMI (HVM), SSD Volume Type"
+  - Select t2.micro for the Instance Type
+  - Accept defaults for the Instance Details (Default VPC) and Storage
+  - Add a tag (Name:Lab6)
+  - Create a new Security Group (WebDMZ) and allow SSH, HTTP, HTTPS
+  - Review and launch, using the existing Key Pair, OregonKeyPair.
+
+
+Access EC2 Instance
+-------------------
+
+From the AWS Console, EC2, click "Instances" to access the instance we just created.
+(Note the Instance State, Tag, Region, Security Group, etc.)
+
+Click on Instance and copy the IPv4 Public IP.
+From Terminal, we can SSH to the new instance using our OregonKeyPair and the Public IP address:
+(Note the user for Amazon Linux is "ec2-user")
+ssh -A ec2-user@18.236.88.208
+
+(Alternatively, you can specify your key with "-i")
+ssh -i ~/.aws/keypairs/OregonKeyPair.pem ec2-user@18.236.88.208
+
+
+Validate EC2 Instance
+---------------------
+
+Useful Commands for checking EC2 instance is functioning properly:
+  - ifconfig
+  - route
+  - curl -s https://www.google.com
+  - curl -s http://169.254.169.254/latest/meta-data/ (Note the trailing slash)
+
+  
