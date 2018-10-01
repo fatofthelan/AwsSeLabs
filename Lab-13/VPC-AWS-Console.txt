@@ -1,0 +1,103 @@
+Create a Custom VPC with Public and Private Subnets with the AWS Console
+------------------------------------------------------------------------
+
+
+Create the new Custom VPC:
+  - From the AWS Console, VPC, Your VPC's, click the Create VPC button
+  - Enter "Custom-Console" for the Name tag
+  - Enter 10.10.0.0/16 for the IPv4 CIDR block, click Yes, Create
+  (Note the summary, a Route Table and NACL have been created for you. A default Security Group was also created)
+  - Once created, click Actions, Edit DNS Hostnames, Enable
+
+Create the Internet Gateway for the new VPC:
+  - From the AWS Console, VPC, Internet Gateways, click Create Internet Gateway
+  - Enter "Custom-Console" for the Name tag, click Close
+  - Select the new IGW, click Actions, Attach to VPC
+  - Select the "Custom-Console" VPC and click Attach
+
+Create a Public Subnet:
+  - From the AWS Console, VPC, Subnets, click Create Subnet
+  - Enter "Custom-Console-Public" for the Name tag
+  - Enter "Custom-Console" for the VPC
+  - Enter 10.10.0.0/24 for the IPv4 CIDR block, click Create, Close
+  - Select the "Custom-Console-Public" subnet, Actions, Modify auto-assign IP settings, Enable, Save
+  - Also note the Subnet ID, we'll need it for our NAT Gateway (for example, subnet-459fb31f)
+
+Create a Private Subnet:
+  - From the AWS Console, VPC, Subnets, click Create Subnet
+  - Enter "Custom-Console-Private" for the Name tag
+  - Enter "Custom-Console" for the VPC
+  - Enter 10.10.1.0/24 for the IPv4 CIDR block, click Create, Close
+
+Create a NAT Gateway/EIP:
+  - From the AWS Console, VPC, Elastic IPs, click Allocate new address, Allocate, Close
+  - Select the new EIP, click the Tags tab, add a tag (Name:Custom-Console) and note the Allocation ID (for example, eipalloc-0a705df039f984fb0)
+  - From the AWS Console, VPC, NAT Gateways, click Create NAT Gateway
+  - Enter the PUBLIC subnet we created earlier (for example, subnet-459fb31f)
+  - Enter the Elastic IP we created earlier (for example, eipalloc-0a705df039f984fb0), click Create a NAT Gateway
+  - When the NAT Gateway is created, click the Edit route tables button to begin adding our routes
+
+
+Create Routes for the Private and Public Subnets
+------------------------------------------------
+
+For our Public and Private subnets to function as desired, we will need a Public and Private Route table, as well as
+routing rules for the hosts in each subnet:
+
+Create the Public Route Table:
+  - From the AWS Console, VPC, Route Tables, click Create Route Table
+  - Enter "Custom-Console-Public" for the Name tag
+  - Select the "Custom-Console" VPC, click Yes, Create
+  - After the Custom-Console-Public Route table is created, click its Routes tab
+  - Verify the route 10.10.0.0/16:local route was created
+  - Click Edit, Add another route
+  - Enter 0.0.0.0/0 for the Destination
+  - Select the Custom-Console IGW for the Target, Save
+  - Click the Subnet Associations tab, Edit
+  - Select the Custom-Console-Public subnet, Save
+
+Edit the Private Route Table:
+  - From the AWS Console, VPC, Route Tables, click the Private Route Table (Note, it was created automatically)
+  - Click the Tab tab, Edit, add a new tag (Name:Custom-Console-Private), Save
+  - Click the Routes tab and verify the 10.10.0.0/16:local route exists
+  - Click Edit, Add another route
+  - Enter 0.0.0.0/0 for the Destination, and the NAT Gateway we created for the Target (for example, nat-0f11a7f0cfd469807), Save
+  - Click the Subnet Associations tab, Edit, select the Custom-Console-Private subnet, Save
+
+
+Validate Routing and Security Rules
+-----------------------------------
+
+To validate everything is working as intended, we will create two EC2 instances, a Public Bastion Host in the Public
+subnet, and a Private Host in the Private subnet:
+  - From the AWS Console, VPC, Network ACLs, click on the Custom-Console NACL
+  - Note the Inbound and Outbound rules (Allow ALL)
+  - From the AWS Console, VPC, Security Groups, click on the Custom-Console Security Group
+  - Note the Inbound and Outbound rules, as well as the Source of the Inbound rules (the Security Group refers to itself)
+
+Create the Public EC2 Instance:
+  - From the AWS Console, EC2, Launch Instance
+  - Select "Amazon Linux 2 AMI (HVM), SSD Volume Type"
+  - Select t2.micro for the Instance Type
+  - For the Instance Details, select the Custom-Console VPC for the Network, and select the Public subnet, Next
+  - Accept defaults for the Storage, Next
+  - Add a tag (Name:Lab13Public)
+  - Create a new Security Group (SSH-to-Bastion-Host) and allow SSH, Next
+  - Review and launch, using the existing Key Pair, OregonKeyPair.
+
+Validate the Public EC2 instance (Bastion Host) via SSH.
+  - ssh -A ec2-user@54.202.95.184
+
+Create the Private EC2 Instance:
+  - From the AWS Console, EC2, Launch Instance
+  - Select "Amazon Linux 2 AMI (HVM), SSD Volume Type"
+  - Select t2.micro for the Instance Type
+  - For the Instance Details, select the Custom-Console VPC for the Network, and select the Private subnet, Next
+  - Accept defaults for the Storage, Next
+  - Add a tag (Name:Lab13Private)
+  - Create a new Security Group (SSH-from-Bastion-Host) and allow SSH, Select the SSH-to-Bastion Security Group as the Source, Next
+  - Review and launch, using the existing Key Pair, OregonKeyPair.
+
+Validate the Private EC2 instance via SSH, from the Bastion Host:
+  - ssh -A ec2-user@54.202.95.184, then ssh -A ec2-user@10.10.1.32
+  - From the EC2 instances page, notice there are no Public IPs for the Private EC2 instance 
