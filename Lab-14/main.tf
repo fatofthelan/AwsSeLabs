@@ -5,23 +5,15 @@ provider "aws" {
 
 /* Create a custom VPC called Terraform-VPC with a private and public subnet */
 resource "aws_vpc" "terraform_vpc" {
-  cidr_block = "${var.vpc_cidr_block}"
+  cidr_block           = "${var.vpc_cidr_block}"
+  enable_dns_hostnames = true
 
   tags = {
     "Name" = "Terraform-VPC"
   }
 }
 
-/* Create the Internet Gateway and Elastic IP for the VPC/Public subnet */
-resource "aws_eip" "internet_gw_eip" {
-  vpc        = true
-  depends_on = ["aws_vpc.terraform_vpc", "aws_internet_gateway.internet_gw"]
-
-  tags {
-    Name = "Terraform-VPC"
-  }
-}
-
+/* Create the Internet Gateway for the VPC/Public subnet */
 resource "aws_internet_gateway" "internet_gw" {
   vpc_id = "${aws_vpc.terraform_vpc.id}"
 
@@ -33,8 +25,6 @@ resource "aws_internet_gateway" "internet_gw" {
 /* Create the NAT Gateway and Elastic IP for the VPC/Private subnet */
 resource "aws_eip" "nat_gw_eip" {
   vpc = true
-
-  //depends_on = ["aws_vpc.terraform_vpc", "aws_nat_gateway.nat_gw"]
 
   tags {
     Name = "Terraform-VPC"
@@ -48,9 +38,10 @@ resource "aws_nat_gateway" "nat_gw" {
 
 /* Create the Public subnet */
 resource "aws_subnet" "public_subnet" {
-  vpc_id            = "${aws_vpc.terraform_vpc.id}"
-  cidr_block        = "${var.public_cidr_block}"
-  availability_zone = "${data.aws_availability_zones.available.names[0]}"
+  vpc_id                  = "${aws_vpc.terraform_vpc.id}"
+  cidr_block              = "${var.public_cidr_block}"
+  map_public_ip_on_launch = true
+  availability_zone       = "${data.aws_availability_zones.available.names[0]}"
 
   tags {
     "Name" = "Lab14Public"
@@ -109,7 +100,7 @@ resource "aws_route" "igw_route" {
 resource "aws_route" "ngw_route" {
   route_table_id         = "${aws_route_table.private_route_table.id}"
   destination_cidr_block = "0.0.0.0/0"
-  gateway_id             = "${aws_nat_gateway.nat_gw.id}"
+  nat_gateway_id         = "${aws_nat_gateway.nat_gw.id}"
 }
 
 /* Access Control Section */
