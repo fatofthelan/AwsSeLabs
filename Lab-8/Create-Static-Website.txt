@@ -27,5 +27,3 @@ Now that you have uploaded multiple versions of the index.html file, you can see
   - From the Overview tab of your S3 bucket, click the Show button next to Versions
   - Note all the versions of the index.html file
   - The last version of the index.html file shows "(Latest version)" next to it
-
-  

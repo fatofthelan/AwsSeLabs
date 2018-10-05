@@ -1,0 +1,11 @@
+Clean Up AWS Items
+------------------
+
+Since AWS charges for the items we create and use, we want to make sure
+that we clean up and delete everything:
+  - If the resources were created via Terraform, go back to that directory and enter "terraform destroy -auto-approve"
+  - For any of the items we created manually, you will have to go back and destroy them manual
+  - Start with EC2 instances, AWS Console, EC2, Instances, select instance(s), click Actions, Instance, Terminate
+  - Delete each VPC and allow it to delete all the items created in that VPC (must delete EC2 instances first)
+  - If you want to keep an EC2 instance, you can opt to Stop it rather than Terminate it (EBS storage rates still apply)
+  
