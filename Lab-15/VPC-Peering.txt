@@ -1,0 +1,48 @@
+Peering VPCs in AWS
+-------------------
+
+
+You can peer VPCs in AWS as long as the CIDR blocks don't overlap. After peering,
+the VPCs are accessible via the local Private network. 
+Do note that there is no transitive peering in AWS.
+If you have been going through the Labs, you should have several VPCs that are in
+the same region and do not have overlapping IP space. Let's peer the Custom-Console
+VPC with the Terraform-VPC VPC together:
+  - From the AWS Console, VPC, Peering Connections, click Create Peering Connection
+  - Enter "Custom-to-Terraform" for the Peering connection name tag
+  - Select Custom-Console for the VPC Requester
+  - Select Terraform-VPC for the VPC Accepter
+  - Click Create Peering Connection, OK
+  - Note that the status of the Peering Connection show as "pending"
+  - From the Actions menu, click Accept Request, Yes, Accept Request
+
+At this point, the Custom-Console and Terraform-VPC VPCs are "connected", but
+there are no routes from one VPC to the other. In order to allow connectivity
+between the two VPCs, we need to update our route tables:
+  - Note the VPCs subnets; Custom-Console:10.10.0.0/16 and Terraform-VPC:10.20.0.0/16
+  - From the AWS Console, VPC, Route Tables, select Custom-Console-Public and click the Routes tab
+  - Click Edit, Add another route
+  - Enter the IP space of the Terraform-VPC VPC, 10.20.0.0/16
+  - For the Target, enter the Peering Connection, Custom-to-Terraform, Save
+  - Do the same for the Custom-Console-Private Routing Table
+  - From the AWS Console, VPC, Route Tables, select Terraform-VPC-Public and click the Routes tab
+  - Click Edit, Add another route
+  - Enter the IP space of the Custom-Console VPC, 10.10.0.0/16
+  - For the Target, enter the Peering Connection, Custom-to-Terraform, Save
+  - Do the same for the Terraform-VPC-Private Routing Table
+
+
+Validate VPC Peering
+--------------------
+
+At this point, you should have network connectivity between the Custom-Console VPC and the Terraform-VPC
+VPC. Assuming that no NACLs or Security Groups prevent it, you should be able to access an EC2 instance
+in one VPC to another EC2 instance in the other VPC. Sine our two Public EC2 instances allow SSH from
+anywhere, we'll use those to validate connectivity so we won't have to adjust our Security Groups:
+  - From the AWS Console, EC2, Instances, select the Public EC2 instance in the Custom-Console VPC and copy its Public IP address
+  - SSH into the Public EC2 instance in the Custom-Console VPC (ssh -A ec2-user@52.12.244.235)
+  - From the AWS Console, EC2, Instances, select the Public EC2 instance in the Terraform-VPC VPC and copy its Private IP address
+  - From the Public Custom-Console instance, SSH to the Terraform-VPC Public EC2 instance's Private IP address
+  - (ssh -A ec2-user@10.20.0.209)
+  - While still connected, attempt to connect back to the Public EC2 instance in the Custom-Console VPC after getting its Private IP address
+  - (ssh -A ec2-user@10.10.0.237)
