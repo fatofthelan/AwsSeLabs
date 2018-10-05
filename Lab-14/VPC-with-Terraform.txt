@@ -1,0 +1,24 @@
+Automate the Creation of a Custom VPC with Public and Private Subnets Using Terraform
+-------------------------------------------------------------------------------------
+
+
+Similar to what you crated in the previous two labs where we created a Custom VPC with
+Pubic and Private subnets, we can fully automate this with Terraform as well as create the
+EC2 hosts in the Private and Public network segments:
+  - Change to the Lab-14 directory
+  - Edit the vars.tf file and make any necessary changes
+  - Enter "terraform init"
+  - Enter "terraform apply" and "yes" to launch the AWS resource creating
+
+
+Validate Routing and Security Rules
+-----------------------------------
+
+Once Terraform finishes creating the environment, you will be presented with the
+Public Host's and Private Host's IP addresses. Validate access to the Public EC2
+instance (Bastion Host) via SSH:
+  - ssh -A ec2-user@54.202.95.184
+
+Validate access to the Private EC2 instance via the Public (Bastion Host) via SSH:
+  - ssh -A ec2-user@54.202.95.184
+  

@@ -15,13 +15,11 @@ variable "www_instance_type" {
 }
 
 variable "existing_ssh_keypair" {
-  default = "CaliforniaKeyPair"
-
-  //  default = "OregonKeyPair"
+  default = "OregonKeyPair"
 }
 
 variable "aws_region" {
-  default = "us-west-1"
+  default = "us-west-2"
 }
 
 /* Create a list of Host AMI's for Amazon Linux 2 */
