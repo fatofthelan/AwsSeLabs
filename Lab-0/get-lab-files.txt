@@ -6,3 +6,8 @@ git clone https://github.com/fatofthelan.com/AwsSeLabs
 
 Verify a new AwsSeLabs directory exists
 A subdirectory for each lab exists with any materials needed for the labs
+
+Open Lab Materials in ATOM
+--------------------------
+
+From the AwsSeLabs directory, enter "atom ." 

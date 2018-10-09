@@ -2,6 +2,7 @@ Create S3 Bucket From AWS Console
 ---------------------------------
 
 From the AWS Console, S3, click Create Bucket:
+  - Note the region (S3 Buckets and Names are Global)
   - Enter DNS compliant name, for example, tobias-BUCKETNAME1 (Note S3 bucket names are Globally Unique)
   - Enter your Region (US West Oregon)
   - Next
