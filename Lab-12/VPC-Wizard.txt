@@ -36,6 +36,7 @@ this case, the Public EC2 instance:
   - Select t2.micro for the Instance Type
   - For Instance Details, select the "Pub-Priv-VPC"
   - Select the Public subnet
+  - Select Enable for "Auto-assign Public IP"
   - Move on to Storage and accept the default
   - Add a tag (Name:Lab12-Public)
   - Create a new Security Group (Allow-SSH) and allow SSH
@@ -50,7 +51,6 @@ Next, create the Private EC2 instance:
   - Select t2.micro for the Instance Type
   - For Instance Details, select the "Pub-Priv-VPC"
   - Select the Private subnet
-  - Select Enable for "Auto-assign Public IP"
   - Move on to Storage and accept the default
   - Add a tag (Name:Lab12-Private)
   - Create a new Security Group (Private-SSH) and allow SSH, Allow-SSH Security Group for the Source (for Bastion Host)
@@ -72,4 +72,3 @@ You can keep this custom VPC to use as a guide when creating this manually in th
 VPC and the EC2 instances when you are finished to avoid excessive AWS fees:
   - From the AWS Console, EC2, Instances, select both instances and click Actions, Instance State, Terminate
   - From the AWS Console, VPC, Your VPC's, select the Pub-Priv-VPC and click Actions, Delete VPC, Yes, Delete
-  

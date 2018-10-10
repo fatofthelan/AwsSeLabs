@@ -18,6 +18,6 @@ Configure Example Web Page
 From the Lab-6 directory, edit the example web page (index.html) and add your name.
 Copy the page contents and create a new page on your EC2 instance in the /var/www/html/ directory.
 For example:
-  - sudo vi /var/www/html/index.html (Paste your edited index.html page, save and exit)
+  - sudo vi /var/www/html/index.html (Paste your edited index.html page, save and exit with ":wq")
 
 Revisit your EC2 Instance's Public IP to see the new page.
