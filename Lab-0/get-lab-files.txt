@@ -2,7 +2,7 @@ Download Lab Materials
 ----------------------
 
 From the Terminal, enter this to get the Lab files:
-git clone https://github.com/fatofthelan.com/AwsSeLabs
+git clone https://github.com/fatofthelan/AwsSeLabs
 
 Verify a new AwsSeLabs directory exists
 A subdirectory for each lab exists with any materials needed for the labs
@@ -10,4 +10,4 @@ A subdirectory for each lab exists with any materials needed for the labs
 Open Lab Materials in ATOM
 --------------------------
 
-From the AwsSeLabs directory, enter "atom ." 
+From the AwsSeLabs directory, enter "atom ."

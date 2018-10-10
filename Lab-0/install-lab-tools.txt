@@ -44,6 +44,9 @@ Install Homebrew
 Install AWS CLI
 brew install awscli
 
+Install Terraform
+brew install terraform
+
 (Optional Tools - Recommended)
 brew install python@2 azure-cli
 export PYTHONPATH=$PYTHONPATH:/usr/local/lib/python2.7/site-packages
