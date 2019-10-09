@@ -25,6 +25,7 @@ variable "aws_region" {
 /* Create a list of Host AMI's for Amazon Linux 2 */
 data "aws_ami" "amazon-linux-2" {
   most_recent = true
+  owners      = ["amazon"]
 
   filter {
     name   = "owner-alias"
@@ -35,7 +36,7 @@ data "aws_ami" "amazon-linux-2" {
     name   = "name"
     values = ["amzn2-ami-hvm*"]
   }
-  
+
   filter {
     name   = "architecture"
     values = ["x86_64"]
@@ -43,4 +44,6 @@ data "aws_ami" "amazon-linux-2" {
 }
 
 /* Fetch a list of availability zones and create a RO variable */
-data "aws_availability_zones" "available" {}
+data "aws_availability_zones" "available" {
+}
+

@@ -21,4 +21,5 @@ instance (Bastion Host) via SSH:
 
 Validate access to the Private EC2 instance via the Public (Bastion Host) via SSH:
   - ssh -A ec2-user@54.202.95.184
+  - ssh -A ec2-user@10.20.1.82
   
